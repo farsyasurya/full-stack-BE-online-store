@@ -1,0 +1,62 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  password String
+  role     String   @default("user")
+  profile  String?
+  balance  Int      @default(0) // Tambahkan ini
+
+  products Product[]
+  orders   Order[]
+
+  sentTransfers     Transfer[] @relation("SenderTransfers")
+  receivedTransfers Transfer[] @relation("ReceiverTransfers")
+}
+
+
+model Product {
+  id         Int      @id @default(autoincrement())
+  name       String
+  price      Int
+  image      String?
+  deletedAt  DateTime?
+
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+  orders     Order[]
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  quantity  Int
+  createdAt DateTime @default(now())
+
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id])
+}
+
+model Transfer {
+  id          Int      @id @default(autoincrement())
+  amount      Int
+  createdAt   DateTime @default(now())
+
+  senderId    Int
+  receiverId  Int
+
+  sender      User     @relation("SenderTransfers", fields: [senderId], references: [id])
+  receiver    User     @relation("ReceiverTransfers", fields: [receiverId], references: [id])
+}

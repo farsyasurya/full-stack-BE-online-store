@@ -1,0 +1,562 @@
+{
+	"info": {
+		"_postman_id": "fefe5c5c-5016-436b-828d-88d90249dd27",
+		"name": "FINAL-BACK-END",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46220311"
+	},
+	"item": [
+		{
+			"name": "REGISTER-ADMIN",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InVzZXIiLCJpYXQiOjE3NTE0NjYxMDgsImV4cCI6MTc1MTU1MjUwOH0.rkmlvz6pwprdjg1xeBMMkWeDi9AEmjM7e99qJTf_thw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/E:/FAR LIBRARY/website/bg.jpg",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "poster",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "price",
+							"value": "100000",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "surya",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "email",
+							"value": "suryafarsya16@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "farsya060707",
+							"type": "text"
+						},
+						{
+							"key": "role",
+							"value": "user",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "profile",
+							"type": "file",
+							"src": "/E:/FAR LIBRARY/website/Desain tanpa judul_20240310_095521_0000.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/auth/register/admin",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"auth",
+						"register",
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "REGISTER-USER",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InVzZXIiLCJpYXQiOjE3NTE0NjYxMDgsImV4cCI6MTc1MTU1MjUwOH0.rkmlvz6pwprdjg1xeBMMkWeDi9AEmjM7e99qJTf_thw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/E:/FAR LIBRARY/website/bg.jpg",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "poster",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "price",
+							"value": "100000",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "name",
+							"value": "surya",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "suryafarsya16@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "farsya060707",
+							"type": "text"
+						},
+						{
+							"key": "role",
+							"value": "user",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "profile",
+							"type": "file",
+							"src": "/E:/FAR LIBRARY/website/Desain tanpa judul_20240310_095521_0000.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/auth/register",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOG-OUT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"suryafarsya16@gmail.com\",\r\n    \"password\": \"farsya060707\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/auth/logout",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN-USER",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/auth/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN-ADMIN",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/auth/login/admin",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"auth",
+						"login",
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CEK-AKTIF",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6InVzZXIiLCJpYXQiOjE3NTE0NjYxMDgsImV4cCI6MTc1MTU1MjUwOH0.rkmlvz6pwprdjg1xeBMMkWeDi9AEmjM7e99qJTf_thw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"farsya@gmail.com\",\r\n    \"password\" : \"farsya123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/auth/me",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"auth",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE-PRODUCT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "poster",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "10000",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/E:/FAR LIBRARY/website/bootstrap-logo.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/products/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "VIEW-PRODUCT-ADMIN",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "poster",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "10000",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/E:/FAR LIBRARY/website/bootstrap-logo.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/products/mine",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"products",
+						"mine"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE-PODUCT-OLEH-ADMIN",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "poster",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "15000",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/E:/FAR LIBRARY/website/bootstrap-logo.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/products/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE-PRODUCT (SOFT)",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "poster",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "10000",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/E:/FAR LIBRARY/website/bootstrap-logo.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/products/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RESTORE-PRODUCT-BERDASARKAN-ID-PRODUCT",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "poster",
+							"type": "text"
+						},
+						{
+							"key": "price",
+							"value": "15000",
+							"type": "text"
+						},
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/E:/FAR LIBRARY/website/bootstrap-logo.png"
+						},
+						{
+							"key": "deletedAt",
+							"value": "null",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/api/products/restore/1",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"products",
+						"restore",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "VIEW-ALL-PRODUCTS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/products/all-products",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"products",
+						"all-products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CEK-SALDO",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/auth/me/saldo",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"auth",
+						"me",
+						"saldo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ORDER-AND-TRANSFER",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"productId\" : 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/api/products/order",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"products",
+						"order"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
