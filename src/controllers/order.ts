@@ -116,3 +116,45 @@ export async function orderProduct(
     next(err);
   }
 }
+
+//get my order
+
+export async function getMyOrders(
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const userId = req.user?.id;
+
+    const orders = await prisma.order.findMany({
+      where: { userId },
+      orderBy: { createdAt: "desc" },
+      include: {
+        product: {
+          select: {
+            name: true,
+            price: true,
+            user: {
+              // admin pemilik produk
+              select: { email: true },
+            },
+          },
+        },
+      },
+    });
+
+    res.json({
+      message: "Daftar order milik user",
+      orders: orders.map((order) => ({
+        id: order.id,
+        tanggal: order.createdAt,
+        produk: order.product.name,
+        harga: order.product.price,
+        admin: order.product.user.email,
+      })),
+    });
+  } catch (err) {
+    next(err);
+  }
+}

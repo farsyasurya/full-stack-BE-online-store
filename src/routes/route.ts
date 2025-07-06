@@ -16,7 +16,7 @@ import {
   updateProduct,
 } from "../controllers/product";
 import { authenticate } from "../middlewares/auth";
-import { getSaldo, orderProduct } from "../controllers/order";
+import { getMyOrders, getSaldo, orderProduct } from "../controllers/order";
 
 export const router = express.Router();
 export const productRouter = express.Router();
@@ -46,3 +46,4 @@ productRouter.delete("/:id", authenticate, softDeleteProduct);
 productRouter.patch("/restore/:id", authenticate, restoreProduct);
 productRouter.get("/all-products", authenticate, getAllProducts);
 productRouter.post("/order", authenticate, orderProduct);
+productRouter.get("/order/my", authenticate, getMyOrders);
