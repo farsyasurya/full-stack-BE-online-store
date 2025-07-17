@@ -158,3 +158,46 @@ export async function getMyOrders(
     next(err);
   }
 }
+//yang order product kuu
+export async function getOrdersToMe(
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) {
+  if (!req.user || req.user.role !== "admin") {
+    res.status(403).json({ message: "Hanya admin yang bisa mengakses ini" });
+    return;
+  }
+
+  try {
+    const orders = await prisma.order.findMany({
+      where: {
+        product: {
+          userId: req.user.id,
+        },
+      },
+      include: {
+        user: true,
+        product: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    const formatted = orders.map((o) => ({
+      id: o.id,
+      tanggal: o.createdAt,
+      produk: o.product.name,
+      harga: o.product.price,
+      pembeli: o.user.email,
+    }));
+
+    res.json({
+      message: "Daftar order ke admin",
+      orders: formatted,
+    });
+  } catch (err) {
+    next(err);
+  }
+}

@@ -14,22 +14,31 @@ dotenv.config();
 const app = express();
 const prisma = new PrismaClient();
 
-app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("src/uploads"));
 
-app.use(cookieParser());
 app.use(
   session({
-    secret: "secret",
+    secret: "rahasia",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60 }, // 1 jam
+    cookie: {
+      httpOnly: true,
+      secure: false, // true jika pakai https
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60,
+    },
   })
 );
 
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use("/uploads", express.static("uploads"));
 
 app.use("/api/auth", router);

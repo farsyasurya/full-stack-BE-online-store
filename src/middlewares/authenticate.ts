@@ -1,18 +1,12 @@
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-
-export const JWT_SECRET = process.env.JWT_SECRET || "jwt-secret";
-
-export interface AuthRequest extends Request {
-  user?: any;
-}
+import { AuthRequest, JWT_SECRET } from "./auth";
 
 export function authenticate(
   req: AuthRequest,
   res: Response,
   next: NextFunction
 ) {
-  // BACA token dari cookie ATAU header Authorization
   const authHeader = req.headers.authorization;
   const token =
     authHeader && authHeader.startsWith("Bearer ")
@@ -21,19 +15,16 @@ export function authenticate(
   console.log("📦 Token yang diterima:", token);
 
   if (!token) {
-    res.status(401).json({ message: "Silakan login terlebih dahulu" });
-
-    return;
+    return res.status(401).json({ message: "Silakan login terlebih dahulu" });
   }
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded;
-
-    next();
-    return;
+    return next();
   } catch (err) {
-    res.status(401).json({ message: "Token tidak valid atau kadaluarsa" });
-    return;
+    return res
+      .status(401)
+      .json({ message: "Token tidak valid atau kadaluarsa" });
   }
 }

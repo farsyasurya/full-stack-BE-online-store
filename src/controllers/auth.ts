@@ -3,13 +3,15 @@ import { Request, Response } from "express";
 import { PrismaClient } from "../generated/prisma";
 import { hashPassword, comparePassword } from "../utils/hash";
 import { generateToken } from "../utils/jwt";
-import { authenticate, AuthRequest } from "../middlewares/auth";
+import { AuthRequest } from "../middlewares/auth";
+import { authenticate } from "../middlewares/authenticate";
 
 const prisma = new PrismaClient();
 
 // ---------- REGISTER ----------
 export async function registerUser(req: Request, res: Response) {
   const { email, password } = req.body;
+
   const profile = req.file?.filename;
 
   if (!email || !password) {
@@ -26,7 +28,7 @@ export async function registerUser(req: Request, res: Response) {
   const hashed = await hashPassword(password);
 
   const user = await prisma.user.create({
-    data: { email, password: hashed, profile, role: "user" },
+    data: { email, password: hashed, profile: profile, role: "user" },
   });
 
   res.status(201).json({
@@ -62,6 +64,7 @@ export async function registerAdmin(req: Request, res: Response) {
 // ---------- LOGIN ----------
 export async function loginUser(req: Request, res: Response) {
   const { email, password } = req.body;
+  console.log(`fe : ${email}, ${password}`);
 
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user || user.role !== "user") {
@@ -79,8 +82,12 @@ export async function loginUser(req: Request, res: Response) {
 
   req.session.token = token;
 
-  res.cookie("token", token, { httpOnly: true, maxAge: 1000 * 60 * 60 });
-
+  res.cookie("token", token, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60,
+    sameSite: "lax",
+    secure: false,
+  });
   res.json({
     message: "Login user berhasil",
     token,
@@ -110,10 +117,14 @@ export async function loginAdmin(req: Request, res: Response) {
 
   const token = generateToken({ id: admin.id, role: admin.role });
 
-  // Simpan token di session
   req.session.token = token;
 
-  res.cookie("token", token, { httpOnly: true, maxAge: 1000 * 60 * 60 });
+  res.cookie("token", token, {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60,
+    sameSite: "lax",
+    secure: false,
+  });
 
   res.json({
     message: "Login admin berhasil",
@@ -132,4 +143,24 @@ export async function testAktif(req: AuthRequest, res: Response) {
     message: "User aktif",
     user: req.user,
   });
+}
+
+export async function getProfile(req: AuthRequest, res: Response) {
+  const user = await prisma.user.findUnique({
+    where: { id: req.user.id },
+    select: {
+      id: true,
+      email: true,
+      role: true,
+      profile: true,
+    },
+  });
+
+  if (!user) {
+    res.status(404).json({ message: "User tidak ditemukan" });
+    return;
+  }
+
+  res.json(user);
+  return;
 }

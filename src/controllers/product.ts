@@ -55,7 +55,6 @@ export async function getMyProducts(
     const products = await prisma.product.findMany({
       where: {
         userId: req.user.id,
-        deletedAt: null,
       },
     });
 
@@ -194,7 +193,55 @@ export async function restoreProduct(
     next(err);
   }
 }
-//get all product
+
+export async function hardDeleteProduct(
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction
+) {
+  const productId = Number(req.params.id);
+
+  if (!req.user || req.user.role !== "admin") {
+    res.status(403).json({
+      message: "Hanya admin yang bisa menghapus produk secara permanen",
+    });
+    return;
+  }
+
+  try {
+    const product = await prisma.product.findUnique({
+      where: { id: productId },
+    });
+
+    if (!product) {
+      res.status(404).json({ message: "Produk tidak ditemukan" });
+      return;
+    }
+
+    if (product.userId !== req.user.id) {
+      res.status(403).json({
+        message:
+          "Anda tidak punya akses untuk menghapus produk ini secara permanen",
+      });
+      return;
+    }
+
+
+    await prisma.order.deleteMany({
+      where: { productId },
+    });
+
+    // 🔥 Hapus produk
+    await prisma.product.delete({
+      where: { id: productId },
+    });
+
+    res.json({ message: "Produk berhasil dihapus secara permanen" });
+  } catch (err) {
+    next(err);
+  }
+}
+
 export const getAllProducts = async (
   req: Request,
   res: Response,
@@ -203,10 +250,10 @@ export const getAllProducts = async (
   try {
     const {
       page = "1",
-      limit = "5",
+      limit = "8",
       search = "",
-      sortBy = "price",
-      order = "asc",
+      sortBy = "id",
+      order = "desc",
       minPrice,
       maxPrice,
     } = req.query;
@@ -214,15 +261,17 @@ export const getAllProducts = async (
     const pageNumber = parseInt(page as string);
     const limitNumber = parseInt(limit as string);
     const skip = (pageNumber - 1) * limitNumber;
-
-    const priceFilter: any = {};
-    if (minPrice) priceFilter.gte = parseInt(minPrice as string);
-    if (maxPrice) priceFilter.lte = parseInt(maxPrice as string);
-
     const validSortFields = ["id", "name", "price"];
     const sortField = validSortFields.includes(sortBy as string)
       ? (sortBy as string)
-      : "price";
+      : "id";
+
+    const priceFilter: any = {};
+    const parsedMin = parseInt(minPrice as string);
+    const parsedMax = parseInt(maxPrice as string);
+
+    if (!isNaN(parsedMin)) priceFilter.gte = parsedMin;
+    if (!isNaN(parsedMax)) priceFilter.lte = parsedMax;
 
     const products = await prisma.product.findMany({
       where: {

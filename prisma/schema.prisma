@@ -15,7 +15,7 @@ model User {
   password String
   role     String   @default("user")
   profile  String?
-  balance  Int      @default(0) // Tambahkan ini
+  balance  Int      @default(0) 
 
   products Product[]
   orders   Order[]
@@ -33,7 +33,7 @@ model Product {
   deletedAt  DateTime?
 
   userId     Int
-  user       User     @relation(fields: [userId], references: [id])
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   orders     Order[]
 }
 
