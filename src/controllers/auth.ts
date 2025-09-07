@@ -1,6 +1,6 @@
 /// <reference types="../types/express-session" />
 import { Request, Response } from "express";
-import { PrismaClient } from "../generated/prisma";
+import { PrismaClient } from "@prisma/client";
 import { hashPassword, comparePassword } from "../utils/hash";
 import { generateToken } from "../utils/jwt";
 import { AuthRequest } from "../middlewares/auth";
